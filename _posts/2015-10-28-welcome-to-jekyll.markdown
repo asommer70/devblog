@@ -11,6 +11,8 @@ Since getting into podcasts and recently purchasing some Spanish courses on CD t
 
 Time for Audio Pila! (Rails version).  I’m thinking to setup a similar service that will list audio files in a directory structure and allow me to play them.  It’d also be very cool to be able to create playlists for them.
 
+<!--more-->
+
 ## Rails Project
 
 There is no hoops to jump through this time to get access to an API, so go ahead and create a new Rails project.  In a terminal enter:
