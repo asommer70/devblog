@@ -3,6 +3,7 @@ layout: post
 title:  "Rails Playing Audio Files"
 date:   2015-10-29 13:05:00
 categories: rails audiopila
+image: music_cover.jpg
 ---
 
 ## Jamming With Rails
