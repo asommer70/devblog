@@ -1,4 +1,11 @@
-# Rails Testing with Audio Pila!
+---
+title:  "Rails Testing with Audio Pila!"
+date:   2015-11-03 13:05:00
+categories: rails audiopila testing
+layout: post
+image: test_cover.jpg
+---
+
 
 ## Test, Test 12, Test 1 2 3
 
@@ -7,6 +14,8 @@ For the longest time Test Driven Development, and the whole testing thing, was m
 I built some web apps and to be honest they weren’t as good as they could have been if I’d taken the time to learn what the whole **testing** thing was all about.
 
 Finally about nine months or so ago buckled down and learned how to write some tests.  Oh man, the world has taken a turn for me.  The simple ability to not have to open a browser and clicky click click was, and is, tops!
+
+<!--more-->
 
 ## Adjusting the Environment
 
@@ -126,7 +135,7 @@ class SettingsIntegrationTest < ActionDispatch::IntegrationTest
 end
 ```
 
-Run the test with **rake**: 
+Run the test with **rake**:
 
 ```
 bin/rake test:integration
@@ -211,5 +220,3 @@ Though it does seem that Capybara can be integrated with Test::Unit so maybe I�
 It does get frustrating spending a lot of time developing tests when you could be developing features…
 
 Party On!
-
-
