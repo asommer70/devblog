@@ -1,4 +1,10 @@
-# Audio Pila! RSpec
+---
+title:  "Audio Pila! RSpec"
+date:   2015-11-10 13:05:00
+categories: rails audiopila testing
+layout: post
+image: rspec_cover.jpg
+---
 
 ## Testing with RSpec
 
@@ -7,6 +13,8 @@ Maybe it’s because the main way I learned Rails development (besides jumping i
 Not just writing tests with RSpec, but the whole TDD (Test Driven Development) thing came into focus and I could actually understand it.  At least I think I could…
 
 So to make developing [Audio Pila!](https://github.com/asommer70/audiopila-rails) a little quicker I’m going to migrate the testing from Test::Unit to RSpec.  It’ll be fun!
+
+<!--more-->
 
 ## Installing and Configuring RSpec
 
