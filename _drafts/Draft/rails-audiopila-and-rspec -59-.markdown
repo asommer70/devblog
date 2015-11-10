@@ -53,6 +53,7 @@ First add these entires to the **:development, :test do** block:
   gem 'poltergeist'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'selenium-webdriver'
+  gem 'database_cleaner', '~> 1.4.1'
 ```
 
 Don’t forget to run a ```bundle install``` after changing the Gemfile.
@@ -65,6 +66,7 @@ With all the supporting gems installed add some configuration in **spec/rails_he
 
 ```
   config.include Capybara::DSL, type: :feature
+  config.include DatabaseCleaner, type: :feature
 
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path, :js_errors => false)
@@ -78,13 +80,46 @@ With all the supporting gems installed add some configuration in **spec/rails_he
   end
 ```
 
+And above the **do |config|** block add this line to require in any files in the *support* directory we’ll create later:
+
+```
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+```
+
 This code sets Capybara to be used for **feature** tests.  The Poltergeist driver is registered and then the if statement decides to use either Poltergeist for Selenium for running the test.  This is based on using RSpec tags with the **-t** option when executing the tests.
 
 This is great because Poltergeist doesn’t show a GUI, but sometimes it’s very useful to watch the test being performed so when you need to you can execute the test with the **-t visual** option.
 
 Hopefully it’ll make more sense when we run some actual tests.
 
-## Migrating Tests
+The last gem *database_cleaner* is a helpful one because it will zero out the database each time rspec is run.  Having a clean database for each test makes for simpler test writing cause you don’t have to account for what could, or could not, be in the database.  To use the **database_cleaner** gem we need to create a directory **spec/support** and inside it create a file named **spec/support/database_cleaner.rb**:
+
+```
+RSpec.configure do |config|
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, :js => true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+end
+```
+
+## Migrating Model Tests
 
 First, create a new directory **spec/models** and inside it create a new file **spec/models/settings_spec.rb** with:
 
@@ -114,3 +149,276 @@ We’ve now migrated our **Settings** model test to RSpec.  Woo!
 
 
 Next, create a file named **spec/models/audios_spec.rb**:
+
+```
+require 'rails_helper'
+
+RSpec.describe Audio, type: :model do
+  let(:valid_attributes) {
+    {
+        name: 'test1.mp3',
+        path: '~/Music/test1.mp3',
+    }
+  }
+
+  context 'validations' do
+    it 'has name and path' do
+      should allow_value('test2.mp3').for(:name)
+      should allow_value('~/Music/test2.mp3').for(:path)
+      should_not allow_value('').for(:name)
+      should_not allow_value('').for(:path)
+    end
+  end
+
+  context 'creation' do
+    it 'can create repositories settings' do
+      Audio.create(valid_attributes)
+      expect(Audio.last).to be_truthy
+      expect(Audio.last.name).to eq('test1.mp3')
+    end
+  end
+end
+```
+
+This test makes sure that an Audio file has a name and a path as well as being able to create one and select it from the database.
+
+## Some View Adjustments
+
+Before we migrate the integration tests there are some adjustments that will make testing easier.  As well as a minor bug to fix… that was found by writing the tests.  In the **app/views/settings/index.html.erb** file edit the **@repositories do** loop to be:
+
+```
+            <ul class="repositories">
+              <% if @repositories %>
+                <% @repositories.each_with_index do |repo, idx| %>
+                  <li>
+                    <%= repo %>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <%= link_to 'Delete', '/settings/repositories?index=' + idx.to_s, method: 'delete', id: 'repo_' + idx.to_s %>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+```
+
+## Migrating Integration Tests
+
+For whatever reason, and I’m sure there’s a good one, *integration* tests are known as *feature* tests in RSpec.  So create a new directory **spec/features** and inside that directory create one for the *settings* tests **spec/features/settings**.  Inside that directory create a **spec/features/settings/create_spec.rb** file (yep we’re breaking each type of test up into it’s own file):
+
+```
+require 'rails_helper'
+
+describe 'Create Settings' do
+  it 'creates a new repository', js: true do
+    visit '/settings'
+
+    fill_in 'Music Repository path', with: '~/Music'
+    click_button 'Save Settings'
+
+    expect(page).to have_content('Setting was successfully saved.')
+    expect(page).to have_content('~/Music')
+  end
+end
+```
+
+Now create a **spec/features/settings/destroy_spec.rb** file with:
+
+```
+require 'rails_helper'
+
+describe 'Destroy Settings' do
+  let!(:repositories) { Settings.repositories = ['~Music'] }
+
+  it 'removes a repository' do
+    visit '/settings'
+
+    repo_count = Settings.repositories.count
+
+    find('#repo_0').click
+
+    expect(Settings.repositories.count).to eq(repo_count - 1)
+  end
+end
+```
+
+Great, we’ve tested creating repository Settings and removing them.  Also, notice in the destroy spec that we’re using the **let!** method to setup a repository before the actual test runs.  This is a quick way to setup objects needed for tests without having to go through the process of filling in a form and what not.
+
+Now create a new directory **spec/features/audios** and inside it a **spec/features/audios/create_spec.rb** (yep, need one for Audios too):
+
+```
+require 'rails_helper'
+
+describe 'Create Audios' do
+
+  let!(:repositories) { Settings.repositories = [‘/Users/adam/Music'] }
+
+  it 'will sync repository directory' do
+    visit '/'
+    find('#repo_sync_0').click
+
+    expect(page).to have_content('Repository sync successful.')
+  end
+end
+```
+
+Before this test will work we need to adjust the **app/views/audios/index.html.erb** to fix some bugs.  Wrap the **@repositories.each_with_index do** block with:
+
+```
+<% unless @repositories.blank? %>
+  <% @repositories.each_with_index do |repo, idx| %>
+    <h3>Repository:</h3>
+
+    <span class="repo-path"><%= repo %></span>
+
+    <br/><hr><br/>
+
+    <% if @audios.blank? %>
+      No audio files created from this repository...
+      <br/><br/>
+    <% end %>
+    <%= link_to 'Sync Repository', sync_repo_path(idx), class: 'button small', id: 'repo_sync_' + idx.to_s %>
+
+    <br/><hr><br/>
+
+
+    <ul id="<%= idx %>" class="audio-list">
+      <% @audios.each do |audio| %>
+        <% if audio.path.index(repo) %>
+          <li>
+            <%= link_to audio.name, audio_path(audio) %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+
+  <% end %>
+<% else %>
+  <p>
+    No repositories configured... please see <%= link_to 'Settings', settings_path %>.
+  </p>
+<% end %>
+```
+
+Also, notice the *Sync Repository* link now has a unique ID which allows us to easily find and “click” it in our tests.  To migrate our last test create a new file **spec/features/audios/index_spec.rb** with:
+
+```
+require 'rails_helper'
+
+describe 'Displaying Audios' do
+
+  let!(:repositories) { Settings.repositories = ['/Users/adam/Music'] }
+
+  it 'displays a repository' do
+    visit '/'
+
+    expect(page).to have_content('/Users/adam/Music')
+  end
+end
+```
+
+There we should now have all our Test::Unit tests migrated to RSpec.  Not too hard was it?
+
+## New Tests
+
+First let’s add a test to **spec/features/audios/create_spec.rb** for manually creating an Audio:
+
+```
+require 'rails_helper'
+
+describe 'Create Audios' do
+  it 'creates a new audio', js: true do
+    visit '/audios/new'
+
+    fill_in 'Name', with: 'test.mp3'
+    fill_in 'Path', with: ‘/Users/adam/Music/test.mp3'
+    click_button 'Save Audio File'
+
+    expect(page).to have_content('Audio was successfully created.')
+    expect(page).to have_content('test.mp3')
+  end
+end
+```
+
+Now create a test for displaying an Audio that is available on the local network or Internet:
+
+```
+  it 'creates a network audio' do
+    visit '/audios/new'
+
+    fill_in 'Name', with: 'Static Memories.mp3'
+    fill_in 'Path', with: 'http://www.nihilus.net/soundtracks/Static%20Memories.mp3'
+    click_button 'Save Audio File'
+
+    expect(page).to have_content('Audio was successfully created.')
+    expect(page).to have_content('Static Memories.mp3')
+  end
+```
+
+We’ve tested listing Audios and creating them from both manually and through the repository sync method so now we should test destroying Audios.  Create a new file **spec/features/audios/destory_spec.rb**:
+
+```
+require 'rails_helper'
+
+describe 'Destroy Audios' do
+
+  let!(:repositories) { Settings.repositories = ['/Users/adam/Music'] }
+  let!(:audio) { Audio.create(name: 'test.mp3', path: '/Users/adam/Music/test.mp3') }
+
+  before do
+    `touch #{audio.path}`
+  end
+
+  it 'destroys an audio' do
+    visit audio_path(audio)
+    expect(page).to have_content('test.mp3')
+
+    click_link 'Edit'
+    find('#delete').click
+
+    expect(page).to have_content('Audio was successfully destroyed.')
+  end
+end
+```
+
+Notice the **before do** block is using the **touch** utility to create an empty file to match the Audio we created above with the **let** method.
+
+Now let’s make the test work by adding the *Delete* button.  Edit **app/views/audios/_form.html.erb** and add the following to the button:
+
+```
+<% if action_name == 'edit' %>
+  <%= link_to audio_path(@audio), method: :delete, id: 'delete', class: 'button tiny alert right' do %>
+    <i class="fi-trash"></i>
+  <% end %>
+<% end %>
+```
+
+Notice we’re using a [Foundation Icon](http://zurb.com/playground/foundation-icon-fonts-3) for the first time.  To get the icons to work we need to import them in our CSS/SCSS.  Edit **app/assets/stylesheets/application.css.scss** and add this line:
+
+```
+@import 'foundation-icons';
+```
+
+There now when you rerun the test, or refresh the page, things should work.  Finally, let’s test removing an Audio though the **sync_repo** method.  Add the following to the Audio destroy_spec:
+
+```
+  it 'will destroy an audio when repository is synced' do
+    `rm #{audio.path}`
+
+    visit '/'
+    find('#repo_sync_0').click
+
+    expect(page).to have_content('Repository sync successful.')
+    expect(page).to_not have_content('test.mp3')
+  end
+```
+
+Pretty simple to remove the test file using the Ruby back tick and re-sync the repository location.
+
+## Conclusion
+
+At this point we’ve migrated all the old Test::Unit tests and have Rspec tests for the new features we added in the [Audio Pila! Second Draft](http://devblog.thehoick.com/rails/audiopila/2015/11/05/rails-audiopila-second-draft.html) post.  Feels good knowing that we can add features and quickly find the things that will break because of our test coverage.
+
+Now we can move forward and develop some more exciting features…
+
+Party On!
