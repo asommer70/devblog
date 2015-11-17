@@ -1,14 +1,22 @@
-# Albums 2nd Draft
+---
+title:  "Albums 2nd Draft"
+date:   2015-11-17 13:05:00
+categories: rails audiopila
+layout: post
+image: albums2.jpg
+---
 
 ## Albums The Complete Picture
 
 There are some additional features needed for the Album object.  When outlining the features of the app creating Albums seemed like a very small step, but after the last post it turned out to be more complicated than I originally planned.  Not to mention much more time consuming.
 
-Most of the delays had to do with getting a good auto-complete library setup.  I did try out a couple of others, but ended up going back with Chosen.  Which coincedently is the library I used in the [BCN](https://github.com/asommer70/bcn) project.  
+Most of the delays had to do with getting a good auto-complete library setup.  I did try out a couple of others, but ended up going back with Chosen.  Which coincidentally is the library I used in the [BCN](https://github.com/asommer70/bcn) project.  
 
 Another sizable delay was getting the model setup correctly to “reference” back to the Audio object.  Creating the table is quite simple, but then you also have to create the “relationship” table that has ID numbers for Audios and their **belong_to** Album.
 
-Once that was rocking things went much more smoothly…
+Once that was rocking things went much more smoothly.
+
+<!--more-->
 
 ## Album Covers
 
@@ -407,4 +415,3 @@ Really there’s only a couple of things you need and once you wrap your head ar
 I guess everything likes to know it’s place in the universe.
 
 Party On!
-
