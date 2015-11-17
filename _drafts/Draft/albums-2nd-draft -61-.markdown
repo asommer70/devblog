@@ -205,63 +205,103 @@ Now for some JavaScripts, edit the **app/assets/javascripts/album.coffee** and a
 
 @media_control = {
   play: (id) ->
+    $('#play').toggleClass('warning')
+    if !$('#pause').hasClass('warning')
+      $('#pause').toggleClass('warning')
+
     $.get("/albums/#{id}.json")
       .then (album) ->
         if album.current_audio != null
-          if !window.current_audio?
-            window.current_audio = media_control.find_current_aduio(album)
+          if !media_control.current_audio?
+            media_control.current_audio = media_control.find_current_aduio(album)
         else
-          window.current_audio = {
+          media_control.current_audio = {
+            album: album,
             audio: album.audios[0],
             current_player: $('#' + album.audios[0].id)[0],
           }
 
-        window.current_audio.current_player.play()
-        media_control.update_album(album, window.current_audio)
+        media_control.current_audio.current_player.play()
+        media_control.update_album(album, media_control.current_audio)
 
 
   pause: (id) ->
-    if window.current_audio?
-      window.current_audio.current_player.pause()
+    if media_control.current_audio?
+      $('#pause').toggleClass('warning')
+      if !$('#play').hasClass('warning')
+        $('#play').toggleClass('warning')
+
+      if media_control.current_audio.current_player.paused
+        media_control.current_audio.current_player.play()
+        $('#play').toggleClass('warning')
+      else
+        media_control.current_audio.current_player.pause()
 
   change_audio: (id, direction) ->
-    $.get("/albums/#{id}.json")
-      .then (album) ->
-        if window.current_audio?
-          window.current_audio.current_player.pause()
-
+    # $.get("/albums/#{id}.json")
+    #   .then (album) ->
+        if !media_control.current_audio?
+          media_control.play(id)
+          # media_control.pause(id)
+          # media_control.change_audio(id, direction)
+        else if media_control.current_audio?
+          media_control.current_audio.current_player.pause()
 
           # Find the index of the next/previous Audio
-          for audio, idx in album.audios
-            if window.current_audio.audio.id == audio.id
+          audios = media_control.current_audio.album.audios
+          for audio, idx in audios
+            if media_control.current_audio.audio.id == audio.id
               current = idx + direction
-              if current == album.audios.length
+              console.log('current:', current)
+              if current == audios.length
                 current = 0
               else if current == -1
-                current = album.audios.length - 1
-              window.current_audio = {
-                audio: album.audios[current],
-                current_player: $('#' + album.audios[current].id)[0],
+                current = media_control.current_audio.album.audios.length - 1
+              media_control.current_audio = {
+                album: media_control.current_audio.album
+                audio: audios[current],
+                current_player: $('#' + audios[current].id)[0],
               }
               break
-        else if album.current_audio?
+        else if media_control.current_audio.album.current_audio?
           # Album isn't playing so play the last audio.
-          window.current_audio = media_control.find_current_aduio(album)
+          media_control.current_audio = media_control.find_current_aduio(media_control.album)
         else
+
           # Album doesn't have a current_audio so start the first, or the last, audio.
           if direction == -1
-            current = album.audios.length - 1
+            current = media_control.album.audios.length - 1
           else
             current = 0
 
-          window.current_audio = {
-            audio: album.audios[current],
-            current_player: $('#' + album.audios[current].id)[0],
+          media_control.current_audio = {
+            album: media_control.album,
+            audio: media_control.album.audios[current],
+            current_player: $('#' + media_control.album.audios[current].id)[0],
           }
 
 
-        window.current_audio.current_player.play()
-        media_control.update_album(album, window.current_audio)
+        media_control.current_audio.current_player.play()
+        media_control.update_album(media_control.current_audio.album, media_control.current_audio)
+
+  looper: (id) ->
+    console.log('setting loop...', id)
+    # Give some feedback.
+    $('#looper').toggleClass('warning')
+
+    if media_control.looping?
+      media_control.looping = false
+    else
+      media_control.looping = true
+
+  shuffle: (id) ->
+    console.log('shuffling...')
+    $('#shuffle').toggleClass('warning')
+    if media_control.shuffling?
+      media_control.shuffling = false
+    else
+      media_control.shuffling = true
+
 
   find_current_aduio: (album) ->
     for audio, idx in album.audios
@@ -269,14 +309,8 @@ Now for some JavaScripts, edit the **app/assets/javascripts/album.coffee** and a
         audio = audio
         current_player = $('#' + audio.id)[0]
 
-        if idx + 1 == album.audios.length
-          next = 0
-          previous = album.audios.length - 1
-        else
-          next = idx + 1
-          previous = idx
-
         return {
+          album: album,
           audio: audio,
           current_player: $('#' + audio.id)[0],
         }
@@ -297,6 +331,8 @@ Whenever an Album is paused, or changed, the Album is updated via Ajax in the **
 
 The Audio that is currently playing as well as it’s audio (player) element is saved into the **media_control.current_audio** object.  This is then used to determine which Audio should be played **next**, or **previous**, which enables the next and previous buttons.
 
+The **looper** and **shuffle** methods set booleans that will be used to determine the next song to  play if set.
+
 There’s probably some holes in this, but it works for now.
 
 ### Keep Things Under Control
@@ -312,4 +348,63 @@ Also, we want to display the name of the last played Audio so in the **show** me
 ```
     @last_audio = Audio.find(@album.current_audio) if @album.current_audio
 ```
+
+## Looping and Shuffling
+
+Earlier we setup a function to reset the Audio **playback_time** to 0 when a file ends.  We can adapt that to play the next song in an Album if the **media_control** object is set.
+
+Edit **app/assets/javascripts/audios.coffee** and change the **.on ‘ended’** function:
+
+```
+.on 'ended', (e) ->
+      $player = $(this)
+
+      $.ajax({
+        url: '/audios/' + $player.data().audio  + '.json',
+        method: 'put',
+        data: 'audio[playback_time]=' + 0
+      })
+
+      if media_control.current_audio?
+        if media_control.current_audio.audio.id == $player.data().audio
+          # If shuffling is on play a random audio.
+          if media_control.shuffling
+            random = Math.round(Math.random() * media_control.current_audio.album.audios.length)
+
+            # Don't let the current audio play back to back.
+            if random == media_control.current_player.audio.album_order
+              random = Math.round(Math.random() * media_control.current_audio.album.audios.length)
+
+            media_control.current_audio = {
+              album: media_control.current_audio.album,
+              audio: media_control.current_audio.album.audios[random],
+              current_player: $('#' + media_control.current_audio.album.audios[random].id)[0],
+            }
+            media_control.play(media_control.current_audio.album.id)
+          else
+            # If the audio is the last one and looping is on then start the first one.
+            if media_control.current_audio.audio.album_order == media_control.current_audio.album.audios.length
+              if media_control.looping
+                media_control.change_audio(media_control.current_audio.album.id, 1)
+              else
+                return
+            else
+              media_control.change_audio(media_control.current_audio.album.id, 1)
+```
+
+The new function is checking for the **media_control.current_audio** object and if it’s there it will first check for the **shuffling** attribute.  
+
+If it finds **shuffling** a random number is generated, between 0 and the number of audios in the album, and then played.
+
+If **shuffling** is not set, or false, and **looping** is set the position of the Audio is checked and if it’s the last one it will call the next Audio which would be the first one.
+
+## Conclusion
+
+This post covers almost as much ground as the first Albums post… well it feels that way anyhow.  Playing an album seems simple until you actually try to figure out how.
+
+Really there’s only a couple of things you need and once you wrap your head around them it’s not too bad.  You need to know what’s currently playing, how many audios are in an album, and what position the current audio is in the context of the whole.
+
+I guess everything likes to know it’s place in the universe.
+
+Party On!
 
