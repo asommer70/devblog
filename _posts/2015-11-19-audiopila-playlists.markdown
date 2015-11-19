@@ -1,10 +1,18 @@
-# Playlists Are The New Mix Tape
+---
+title:  "Playlists Are The New Mix Tape"
+date:   2015-11-19 13:05:00
+categories: rails audiopila
+layout: post
+image: playlist.jpg
+---
 
 ## Playlists For One and All
 
 It’s so frustrating to have to recreate your favorite playlists in a new music service.  I’m hoping that implementing the feature in [Audio Pila!](https://github.com/asommer70/audiopila-rails) will be the last time I’ll have to migrate them.  To be honest I don’t have all that many, but like a good mix tape a good playlist is great for using someone else’s art to express your emotions.
 
 Or something like that…
+
+<!--more-->
 
 ## Some Tests First
 
