@@ -62,11 +62,138 @@ And similar for **app/models/audio.rb**:
 
 ## Playlist Show
 
-Let’s adjust the **app/views/playlists/show.html.erb** file:
+To generic things up we’ll create a new partial in **app/views/layotus/_collections.html.erb**.  This will use **@collection** instead of **@playlists/@albums**.  This allows us to use one template for both Playlists and Albums:
 
 ```
+<h2><%= @collection.name %></h2>
+<div class="row">
+  <div class="columns large-4">
+    <%= image_tag @collection.image.url, class: 'th' if @collection.image %>
+  </div>
+  <div class="columns large-6 large-offset-1">
+    <ul class="no-bullet collection-details">
+      <% if controller_name == 'playlists' %>
+        <li>
+          <strong>Description:</strong> <%= @collection.description %>
+        </li>
+      <% else %>
+        <li>
+          <strong>Artist:</strong> <%= @album.artist %>
+        </li>
+        <li>
+          <strong>Released:</strong> <%= @album.year.strftime('%Y') if @album.year %>
+        </li>
+        <li>
+          <strong>Genre:</strong> <span class="label warning"><%= @album.genre %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<br/>
+
+<div class="row">
+  <div class="columns large-6">
+    <h4>Play <%= @collection.name %></h4>
+    <div class="controls">
+      <button class="warning large control change" data-function="-1" data-collection="<%= @collection.id %>"><i class="fi-previous"></i></button>
+      <button id="play" class="warning large control" data-function="play" data-collection="<%= @collection.id %>"><i class="fi-play"></i></button>
+      <button id="pause" class="warning large control" data-function="pause" data-collection="<%= @collection.id %>"><i class="fi-pause"></i></button>
+      <button class="warning large control change" data-function="1" data-collection="<%= @collection.id %>"><i class="fi-next"></i></button>
+      <br/>
+      <button id="looper" class="warning small control" data-function="looper" data-collection="<%= @collection.id %>"><i class="fi-loop"></i></button>
+      <button id="shuffle" class="warning small control" data-function="shuffle" data-collection="<%= @collection.id %>">
+        <i class="fi-shuffle"></i>
+      </button>
+    </div>
+    <div class="current-song">
+      <h5>Current Audio</h5>
+      <span id="playing_audio">
+        <% if @last_audio %>
+          <strong><%= @last_audio.name %></strong> was last played.
+        <% else %>
+          Don't know what was last played...
+        <% end %>
+      </span>
+    </div>
+  </div>
+  <div class="columns large-6">
+    <% unless @collection.audios.empty? %>
+      <ul id="audio-list" class="no-bullet">
+        <% @collection.audios.each do |audio| %>
+          <li data-audio="<%= audio.id %>" class="audio" data-collection="<%= @collection.id %>"
+            data-playlist-audio="<%= audio.playlist_audios.find_by(audio_id: audio.id, playlist_id: @playlist.id).id  if @playlist %>">
+
+            <div class="row">
+              <div class="columns large-12">
+                <strong><%= link_to audio.name, audio %></strong>
+                <br/>
+
+                <div class="row">
+                  <div class="columns large-6">
+                    <audio id="<%= audio.id %>" controls data-audio="<%= audio.id %>" class="player" autobuffer=“false”>
+                      <% if audio.path.index('http') %>
+                        <source src="<%= audio.path %>"></source>
+                      <% else %>
+                        <source src="<%= stream_path(audio.id) %>"></source>
+                      <% end %>
+                    </audio>
+                  </div>
+                  <div class="columns large-2 right">
+                    <div class="button button tiny secondary handle left">
+                      <i class="fi-arrows-in"></i>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+</div>
+
+
+<br/><hr/><br/>
+
+<% if controller_name == 'playlists' %>
+  <%= link_to 'Edit', edit_playlist_path(@playlist), class: 'button small' %> |
+  <%= link_to 'Back', playlists_path, class: 'button small' %>
+<% else %>
+  <%= link_to 'Edit', edit_album_path(@album), class: 'button small' %> |
+  <%= link_to 'Back', albums_path, class: 'button small' %>
+<% end %>
+```  
+
+Let’s adjust the **app/views/playlists/show.html.erb** and **app/views/albums/show.html.erb** files to have only:
 
 ```
+<%= render 'layouts/collections' %>
+```
+
+Then change the **show** method in **app/controllers/playlists_controller.rb**:
+
+```
+  def show
+    @collection = @playlist
+    @last_audio = Audio.find(@playlist.current_audio) if @playlist.current_audio
+  end
+```
+
+And to keep our code duplication down to a minimum change the **show** method in **app/controllers/albums_controller.rb**:
+
+```
+  def show
+    @collection = @album
+    @last_audio = Audio.find(@album.current_audio) if @album.current_audio
+  end
+```
+
+Basically just adding the **@collection** variable.
 
 ## JavaScripts (CoffeeScripts)
 
@@ -89,20 +216,17 @@ $(document).ready(ready_collections)
 $(document).on('page:load', ready_collections)
 ```
 
-
 Edit the **media_control** object:
 
 ```
 @media_control = {
   play: (action, id) ->
-    console.log('action:', action, 'id:', id)
     $('#play').toggleClass('warning')
     if !$('#pause').hasClass('warning')
       $('#pause').toggleClass('warning')
 
     $.get("/#{action}/#{id}.json")
       .then (collection) ->
-        console.log('album:', collection)
         if collection.current_audio?
           if !media_control.current_audio?
             media_control.current_audio = media_control.find_current_audio(collection)
@@ -140,7 +264,6 @@ Edit the **media_control** object:
       for audio, idx in audios
         if media_control.current_audio.audio.id == audio.id
           current = idx + direction
-          console.log('current:', current)
           if current == audios.length
             current = 0
           else if current == -1
@@ -154,8 +277,6 @@ Edit the **media_control** object:
     else if media_control.current_audio.collection.current_audio?
       # Collection isn't playing so play the last audio.
       media_control.current_audio = media_control.find_current_audio(media_control.current_audio.collection)
-      console.log(media_control.current_audio.current_player)
-      media_control.current_audio.current_player.play()
     else
 
       # Collection doesn't have a current_audio so start the first, or the last, audio.
@@ -174,7 +295,6 @@ Edit the **media_control** object:
     media_control.update_collection(action, media_control.current_audio.collection, media_control.current_audio)
 
   looper: (id) ->
-    console.log('setting loop...', id)
     # Give some feedback.
     $('#looper').toggleClass('warning')
 
@@ -184,7 +304,6 @@ Edit the **media_control** object:
       media_control.looping = true
 
   shuffle: (id) ->
-    console.log('shuffling...')
     $('#shuffle').toggleClass('warning')
     if media_control.shuffling?
       media_control.shuffling = false
@@ -205,8 +324,6 @@ Edit the **media_control** object:
         }
 
   update_collection: (action, collection, current_audio) ->
-    console.log('update_collection collection:', collection)
-    console.log('current_audio:', current_audio)
     if action == 'albums'
       $('#playing_audio').html(current_audio.audio.name + ' <em>' + current_audio.audio.album_order + '</em>')
       field = 'album[current_audio]='
@@ -222,8 +339,82 @@ Edit the **media_control** object:
 }
 ```
 
-So basically the word “album” has been replaced with the word “collection” to make things more generic.  The URLS and fields to be PUT have beed adjusted to the **action** variable set at the top of the file.
+There’s a lot of code in there, but basically the word “album” has been replaced with the word “collection” to make things more generic.  The URLS and fields to be PUT have beed adjusted to the **action** variable set at the top of the file.  There are a few more clean up items, like renaming a misspelled function name, but of the most part it’s the same as what we used before.
 
+## Re-ordering Playlists
+
+The last piece of the puzzle is to adjust the code for re-ordering Audios.  First, add a new route to **config/routes.rb**:
+
+```
+  put '/playlist_audios/:id', to: 'playlists#update_playlist_audio', as: :update_playlist_audio
+```
+
+Next, adjust the **has_many through:** statement in **app/models/playlist.rb** to include an **order** lambda:
+
+```
+  has_many :audios, -> { order 'playlist_audios.playlist_order' }, through: :playlist_audios
+```
+
+It looks a little odd, at least to me, but it works fine.  Now in **app/controllers/playlists_controller.rb** create a new **update_playlist_audio** method:
+
+```
+  def update_playlist_audio
+    playlist_audio = PlaylistAudio.find(params[:id])
+    if playlist_audio
+      playlist_audio.update(playlist_params)
+      render json: true
+    else
+      render json: { error: playlist_audio.errors.full_messages }
+    end
+  end
+```
+
+Also, add **:playlist_order** to the permitted parameters in the **playlist_params** method:
+
+```
+      params[:playlist].permit(:name, :description, :image, :current_audio, :playlist_order, :audio_ids => [])
+```
+
+Finally, update the “Handle re-ordering of Audios” section of **app/assets/javascripts/collections.coffee**:
+
+```
+  #
+  # Handle re-ordering of Audios.
+  #
+  $('#audio-list').sortable({
+    handle: '.handle',
+    sortableClass: 'fade',
+  })
+
+  $('#audio-list').bind 'sortupdate', (e, ui) ->
+    # Find the audio at the oldIndex.
+    $oldIndexAudio = $($('li.audio')[ui.oldindex])
+
+    # Determine the correct order field.
+    if action == 'albums'
+      field = 'audio[album_order]='
+      old_url = "/audios/#{$oldIndexAudio.data().audio}.json"
+      new_url = "/audios/#{ui.item.data().audio}.json"
+    else
+      field = 'playlist[playlist_order]='
+      new_url = "/playlist_audios/#{ui.item.data().playlistAudio}"
+      old_url = "/playlist_audios/#{$oldIndexAudio.data().playlistAudio}"
+
+    # Send a PUT to each Audio to update the album_order field.
+    $.ajax({
+      url: old_url
+      method: 'put',
+      data: field + (ui.oldindex + 1)
+    })
+
+    $.ajax({
+      url: new_url
+      method: 'put',
+      data: field + (ui.index + 1)
+    })
+```
+
+So now we’re sending different data and to different URLs based on if it’s a Playlist or an Album.
 
 ## Styles
 
@@ -246,3 +437,9 @@ To generalize the styles, and have them match the changes in the show templates,
   }
 }
 ```
+
+## Conclusion
+
+It’s awesome to be able to play both an Album and a Playlist as well as re-ordering the Audio files that are part of each.  There are a few wonky bugs in the process, but I think we’ll be able to iron them out in future posts.
+
+Party On!
