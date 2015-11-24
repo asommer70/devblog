@@ -1,4 +1,10 @@
-# Albums 3rd Draft
+---
+title:  "Albums 3rd Draft"
+date:   2015-11-24 13:05:00
+categories: rails audiopila
+layout: post
+image: album3.jpg
+---
 
 
 ## Album Order
@@ -7,9 +13,11 @@ While writing up the [Albums 2nd Draft](http://devblog.thehoick.com/rails/audiop
 
 After some thinkering, I’ve come to the conclusion that the best way to change the order of an Audio in an Album is to use a drag ’n drop list re-order the Audio list on the Album show page.  That way we can change the **album_order** field for two Audios at one time… in theory.
 
+<!--more-->
+
 ## Dragin ’n Droppin
 
-To make drag ’n drop much easier we’ll use the [html5sortable](https://github.com/voidberg/html5sortable) library and like the Chosen library we’ll place it in the vendor asset pipeline. 
+To make drag ’n drop much easier we’ll use the [html5sortable](https://github.com/voidberg/html5sortable) library and like the Chosen library we’ll place it in the vendor asset pipeline.
 
 Download the latest release archive from [here](https://github.com/voidberg/html5sortable/releases) and extract the contents.  You should have a **html5sortable-X.X.X** folder where X.X.X is the current version number.  Inside that directory copy the **dist/html.sortable.js** file to **vendor/assets/javascripts**.
 
