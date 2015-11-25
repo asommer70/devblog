@@ -1,4 +1,10 @@
-# Playlists 2nd Draft
+---
+title:  "Playlists 2nd Draft"
+date:   2015-11-26 13:05:00
+categories: rails audiopila
+layout: post
+image: playlist2.jpg
+---
 
 ## Playing Playlists and Additional Features
 
@@ -7,6 +13,8 @@ Right, we’ve already whipped up the JavaScript/CoffeeScript needed to play Alb
 The Audio model has a field (album_order) that determines where in the Album the Audio is located.  Since an Audio can be part of many Playlists and a Playlist has many Audios it doesn’t make sense to add a *playlist_order* field to either of them.  
 
 Fortunately Rails comes with the ability to **has_many :through** which allows for adding additional fields to the “pointer” table linking the two models.  Placing the **playlist_order** field on that table should allow us to say this Audio goes with this Playlist in this order.  Pow!
+
+<!--more-->
 
 ## Adjusting the Model
 
