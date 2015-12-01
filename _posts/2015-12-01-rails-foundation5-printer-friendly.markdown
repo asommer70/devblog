@@ -1,10 +1,18 @@
-# Rails Foundation 5 and Friendly Printing
+---
+title:  "Rails Foundation 5 and Friendly Printing"
+date:   2015-12-01 13:05:00
+categories: rails foundation
+layout: post
+image: print.jpg
+---
 
 ## Switching Projects
 
 I’ve decided to take a break for a few days on the [Audio Pila!](https://github.com/asommer70/audiopila-rails) project due to some deadlines that have come blasting up.  So in the mean time I’ve written up a few guides on some different topics related to Rails and web development.
 
 For a work project I’ve needed to create/setup a Printer Friendly view for a form.  Archiving forms on paper shouldn’t be necessary in an ideal world, but some people like hard copy to CYA.
+
+<!--more-->
 
 ## Adding A Complex Form
 
@@ -303,7 +311,7 @@ To enable the JSON for an Input the **show** method in **app/controllers/inpts_c
 
 With all that work done, time to adjust the CSS for better printing.  As you can see from this screenshot:
 
-![](img/bad_print.png)
+![](/img/bad_print.png)
 
 The text fields above the table aren’t in a 3 column grid, there’s no shading of odd rows in the table, and the navigation is visible at the top.  Let’s take care of those things via CSS (or SASS rather).
 
@@ -371,7 +379,7 @@ From this [post](http://stackoverflow.com/questions/23372405/nth-child-not-displ
 
 Hit Ctrl+p (Command+p on a Mac) to bring up the Print Preview window in Chrome and you’ll see the new styles applied.
 
-![](img/good_print.png)
+![](/img/good_print.png)
 
 ## Conclusion
 
