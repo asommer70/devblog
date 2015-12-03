@@ -1,10 +1,18 @@
-# Rails Multiple File Upload
+---
+title:  "Rails Multiple File Upload"
+date:   2015-12-03 13:05:00
+categories: rails foundation
+layout: post
+image: upload.jpg
+---
 
 ## Uploading Fun Time Images
 
 A request came in for the [BCN](https://github.com/asommer70/bcn) project to be able to upload multiple images to a Post.  This seems reasonable, and I know that it’s possible to upload multiple files at a time.  You can even do it via Ajax if you’re feeling saucy.
 
 I decided to not use an Ajax method, or to create a file drag ’n drop area on the page to keep things simple.  If users request that feature then I’ll probably go back and add it later.  I guess the biggest reason I didn’t include that was because most of the current libraries I found applied their own styles, and I wanted to use the [Foundation Clearing](http://foundation.zurb.com/sites/docs/v/5.5.3/components/clearing.html) feature to create a little web gallery as a preview.
+
+<!--more-->
 
 ## Adding Models
 
@@ -144,6 +152,11 @@ Now, add a *onclick* handler toward the top of the file:
 ```
 
 There now when the files are attached the **multiPhotoDisplay** function will be called and we’ll be able to see them.
+
+Check out the results in this Pen:
+
+<p data-height="268" data-theme-id="0" data-slug-hash="yeBLxb" data-default-tab="result" data-user="asommer70" class='codepen'>See the Pen <a href='http://codepen.io/asommer70/pen/yeBLxb/'>Multi Image Upload with Gallery</a> by Adam Sommer (<a href='http://codepen.io/asommer70'>@asommer70</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
 
 ## Conclusion
 
