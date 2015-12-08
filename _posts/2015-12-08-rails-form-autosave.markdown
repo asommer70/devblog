@@ -1,4 +1,10 @@
-# Form Auto-save with Rails
+---
+title:  "Form Auto-save with Rails"
+date:   2015-12-08 13:05:00
+categories: rails forms
+layout: post
+image: autosave.jpg
+---
 
 ## LocalStorage to The Rescue
 
@@ -9,6 +15,8 @@ At least I was able to easily break auto-save in some of my projects.
 The answer to the problem was to roll my own solution.  I was heavily influenced by this excellent [post/video](https://css-tricks.com/video-screencasts/96-localstorage-for-forms/) on CSS Tricks where Chris details saving form data into localStorage.
 
 Because I’m so into Rails lately I used CoffeeScript instead of straight up JavaScript.  I’ll go through the steps to add **auto-save** to our fun [Rails Forms](http://codepen.io/asommer70/post/rails-saving-form-data) app from previous posts.
+
+<!--more-->af
 
 ## CoffeeScript and localStorage
 
@@ -122,7 +130,7 @@ This will bind the **auto_save** functionality to the fields in the new row.
 
 ## Conclusion
 
-Even though there are great auto-save libraries out there, sometimes it’s easier, or even necessary, to roll your own. 
+Even though there are great auto-save libraries out there, sometimes it’s easier, or even necessary, to roll your own.
 
 Also, a massive thanks to Chris for putting out such great content.
 
