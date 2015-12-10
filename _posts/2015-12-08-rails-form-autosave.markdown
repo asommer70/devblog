@@ -16,7 +16,7 @@ The answer to the problem was to roll my own solution.  I was heavily influenced
 
 Because I’m so into Rails lately I used CoffeeScript instead of straight up JavaScript.  I’ll go through the steps to add **auto-save** to our fun [Rails Forms](http://codepen.io/asommer70/post/rails-saving-form-data) app from previous posts.
 
-<!--more-->af
+<!--more-->
 
 ## CoffeeScript and localStorage
 
@@ -135,3 +135,8 @@ Even though there are great auto-save libraries out there, sometimes it’s easi
 Also, a massive thanks to Chris for putting out such great content.
 
 Party On!
+
+Check out the example:
+
+<p data-height="268" data-theme-id="0" data-slug-hash="wMBjYG" data-default-tab="result" data-user="asommer70" class='codepen'>See the Pen <a href='http://codepen.io/asommer70/pen/wMBjYG/'>Form Auto-Save</a> by Adam Sommer (<a href='http://codepen.io/asommer70'>@asommer70</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
