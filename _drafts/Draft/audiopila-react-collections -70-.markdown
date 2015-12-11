@@ -349,6 +349,8 @@ Like our Audio component we need to use the **react_component** method in our te
         currentAudio: @last_audio %>
 ```
 
+Now with all this recants out of the way remove the **Handle "global" playback controls.** code from **app/asssets/javascripts/collections.coffee**.  Unlike the audio component we don’t want to delete the entire file because we still want the code to handle the drag ’n drop re-ordering of the collection’s Audios.
+
 ## Conclusion
 
 Migrating this functionality to React has seemed a lot harder than it should have been.  I think the actual problem is my brain hangover from the Thanksgiving holiday though.  It’s very interesting the effect that eating a bunch of crappy food for half a week will have on you.  I never really noticed it before, but maybe it’s a sign that I’m getting old…
