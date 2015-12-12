@@ -1,4 +1,10 @@
-# Rails Helpers
+---
+title:  "Rails Helpers"
+date:   2015-12-17 13:05:00
+categories: rails bcn
+layout: post
+image: helpers.jpg
+---
 
 ## Help Me, Help Help Me
 
@@ -7,6 +13,8 @@ I while back, well quite a while actually, blasted through a [Treehouse course](
 Ah sigh, it would have been useful to at least keep [Rails Helpers](http://mixandgo.com/blog/the-beginner-s-guide-to-rails-helpers) in mind while I was adding a ton of if statements and other logic to my templates.
 
 As it turns out Rails Helpers are actually quite simple to understand and add a lot of power to the tempting system.
+
+<!--more-->
 
 ## Moving Post Image to a Helper
 
@@ -63,4 +71,4 @@ Rails Helpers are an awesome feature and I know I’ll be going back and cleanin
 
 Yay for learning!
 
-Party On! 
+Party On!
