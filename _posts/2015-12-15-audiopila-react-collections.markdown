@@ -1,10 +1,18 @@
-# Album/Playlist Player With React and Rails
+---
+title:  "Album/Playlist Player With React and Rails"
+date:   2015-12-15 13:05:00
+categories: rails react audiopila
+layout: post
+image: react_collections.jpg
+---
 
 ## Almost There
 
 In the [last post](http://devblog.thehoick.com/rails/react/audiopila/2015/12/10/audiopila-react-player.html) we migrated the HTML5 audio element and associated JavaScript playback handling to React.  This time we’re ready to migrate the Album/Playlist (or Collections, as I’ve come to think of them) to React.  
 
 Having both of this functionality in React will be great for integrating the two and hopefully making the code more maintainable.  At least I think the code looks a lot cleaner in React.  CoffeeScript is great, but like regular JavaScript, too many jQuery event bindings in one file can get pretty hairy pretty quickly.
+
+<!--more-->
 
 ## Player Component
 
