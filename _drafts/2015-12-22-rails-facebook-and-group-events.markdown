@@ -1,4 +1,10 @@
-# Rails Facebook and Group Events
+---
+title:  "Rails Facebook and Group Events"
+date:   2015-12-22 13:05:00
+categories: rails learning
+layout: post
+image: fb_groups.jpg
+---
 
 ## Owners, We Don’t Need No Stinkin Owners
 
@@ -9,6 +15,8 @@ While setting up Events from Facebook Pages I used the **owner** field to match 
 Should be working right… not so fast sir.  If a Facebook user is attending/interested in an Event that was created by a Facebook Group there is no **owner** field.  Doh, I guess we can’t trigger off of that then.  Wait you say, there’s a **parent_group** field seems like that should work.  It does, but from my experience that field doesn’t always come through on an Event when using the API.
 
 So we’ll have to do a search using Koala to find out if the owner of the Event is a Facebook Group, then search the Organizations setup in our site and compare them.
+
+<!--more-->
 
 ## Updating the Database
 
