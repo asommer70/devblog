@@ -1,4 +1,10 @@
-# Rails Sorting
+---
+title:  "Rails Sorting"
+date:   2015-12-24 13:05:00
+categories: rails learning
+layout: post
+image: sorting.jpg
+---
 
 ## Sorty Sort Sort
 
@@ -6,7 +12,9 @@ Sorting with the ActiveRecord **order** method seems pretty simple, and to be ho
 
 For my larger forms project I’ve been working on sorting Input forms by Form name and the Input created_at field, and in this post we’ll walk through setting up some sorts in our [Rails Forms](http://codepen.io/asommer70/post/rails-saving-form-data).
 
-I used this great [Rails Cast](http://railscasts.com/episodes/228-sortable-table-columns) as the basis of my solution.  The Forms project isn’t exactly the same since we’re not sorting a simple table of data, but using specific attributes of the objects.  Still a very good walk through and it also introduced me to a better way of using **helper_methods** in controllers to set “global” variables. 
+I used this great [Rails Cast](http://railscasts.com/episodes/228-sortable-table-columns) as the basis of my solution.  The Forms project isn’t exactly the same since we’re not sorting a simple table of data, but using specific attributes of the objects.  Still a very good walk through and it also introduced me to a better way of using **helper_methods** in controllers to set “global” variables.
+
+<!--more-->
 
 ## Inputs Controller
 
