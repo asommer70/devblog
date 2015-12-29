@@ -3,10 +3,13 @@
 ---
 @charset "utf-8";
 
-
+$display-font-family: 'Carter One', Arial, sans-serif;
+$secondary-font-family: 'Noto Serif', Times, serif;
+$body-font-family: Ubuntu, Arial, sans-serif;
+$accent-font-family: Dekko, sans-serif;
 
 // Our variables
-$base-font-family: Helvetica, Arial, sans-serif;
+$base-font-family: $body-font-family;
 $base-font-size:   16px;
 $small-font-size:  $base-font-size * 0.875;
 $base-line-height: 1.5;
