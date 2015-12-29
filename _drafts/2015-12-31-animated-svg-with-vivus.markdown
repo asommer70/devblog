@@ -1,4 +1,10 @@
-# Animated SVG with Vivus
+---
+title:  "Animated SVG with Vivus"
+date:   2015-12-29 13:05:00
+categories: rails learning
+layout: post
+image: animate.jpg
+---
 
 ## Viva la Vivus
 
@@ -18,7 +24,7 @@ So I take that to mean that the simpler the drawing the better.
 
 Vivus also doesn’t work with text elements, but with the ideas in this [issue](https://github.com/maxwellito/vivus/issues/22) I converted the text elements.
 
-In [Affinity Designer](https://affinity.serif.com/en-us/) I converted the text elements for letters into curves by selecting the element > clicking Layer in the top menu > then click convert to curves.  Pow, you now have an SVG with letters that will work with Vivus. 
+In [Affinity Designer](https://affinity.serif.com/en-us/) I converted the text elements for letters into curves by selecting the element > clicking Layer in the top menu > then click convert to curves.  Pow, you now have an SVG with letters that will work with Vivus.
 
 ## Installing Vivus
 

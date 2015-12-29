@@ -1,10 +1,18 @@
-# Rails Advanced Sorting
+---
+title:  "Rails Advanced Sorting"
+date:   2015-12-29 13:05:00
+categories: rails learning
+layout: post
+image: sorting2.jpg
+---
 
 ## Well More Advanced Then Last Time
 
 In the [last post](http://devblog.thehoick.com/rails/learning/2015/12/24/rails-sorting.html) we explored a simple sorting option for Rails.  In this post we’ll work on more advanced sorting with multiple models (or tables if you prefer) and some additional advanced options.
 
 To be clear this really isn’t all that advanced, but it is more advanced then simply sorting on one attribute of a model.  I’ve added the advanced sorting to the [BCN](https://github.com/asommer70/bcn) project and will go over the changes that were made to add this functionality.
+
+<!--more-->
 
 ## Sortable Helper
 
@@ -112,7 +120,7 @@ Finally, at the bottom of the **app/controllers/posts_controller.rb** inside the
 And back at the beginning of the file add:
 
 ```
-  helper_method :sort_column 
+  helper_method :sort_column
 ```
 
 The **sort_column** method simply returns the **params[:sort]** if it’s there.  This is then made available to our **sortable** method in the **app/helpers/post_helpers.rb** file.  We’ve now come full circle.
