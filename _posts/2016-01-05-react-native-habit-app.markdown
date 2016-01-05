@@ -1,4 +1,10 @@
-# Habit Chain App in React Native
+---
+title:  "Habit Chain App in React Native"
+date:   2016-01-05 13:05:00
+categories: react-native learning
+layout: post
+image: react_native.jpg
+---
 
 ## Good Ol' React
 
@@ -11,6 +17,8 @@ Plus there's the whole web developer going to mobile thing with JavaScript.
 The most awesome thing about React Native is how closely the things I've learned with React (for the web) have translated to React Native.  It's pretty much the same thing…
 
 It being the new year and all I'm trying to develop a meditation habit again, and I thought a great first React Native app would be to whip up an app to help keep track of executing on the habit each day.  Sort of like the whole Jerry Seinfeld thing of ["Don't Break the Chain"](http://lifehacker.com/281626/jerry-seinfelds-productivity-secret).
+
+<!--more-->
 
 ## The Hoick Habit App
 
@@ -396,7 +404,7 @@ We then have the *saveHabit*, *editHabit*, *restartHabit*, and *cancelHabit* hab
 
 Except for **restartHabit**.  Clicking the **Restart** button will set the **this.state.days** back to an empty array as well as setting **this.state.checked** and **this.state.editHabit**.  Basically it puts things back to square one except for the actual Habit setting.
 
-## Add Day 
+## Add Day
 
 The next big piece of the pie is the **addDay** function.  This is where a **day** object is added to the **this.state.days** array:
 
