@@ -1,4 +1,10 @@
-# React Native Saving Habits
+---
+title:  "React Native Saving Habits"
+date:   2016-01-07 13:05:00
+categories: react-native learning
+layout: post
+image: rn_store.jpg
+---
 
 ## No Redos
 
@@ -6,13 +12,15 @@ The [Habit App](http://devblog.thehoick.com/react-native/learning/2016/01/05/rea
 
 The AsyncStorage allows you to save key value pairs on both Android and iOS using their native backend storage facilities.  At least that's what I understand.
 
+<!--more-->
+
 ## Simple Store
 
 So the AsyncStorage documentations recommends "using an abstraction on top of AsyncStorage" and though they do give a good example of doing just that, I wasn't able to get things working in a timely fashion.
 
 So I did what I usually do and did some searching of the Ol' Internets and found [react-native-simple-store](https://github.com/jasonmerino/react-native-simple-store) which wraps AsyncStorage for you.  Nice!
 
-To install the library execute the following in the project directory: 
+To install the library execute the following in the project directory:
 
 ```
 npm install --save react-native-simple-store
@@ -72,7 +80,7 @@ Great we can store and retrieve the Habit!
 
 ## Saving Days
 
-The next order of business is to store the **days** array so we can keep track of things.  The new **addDay** function is: 
+The next order of business is to store the **days** array so we can keep track of things.  The new **addDay** function is:
 
 ```
   addDay: function() {
