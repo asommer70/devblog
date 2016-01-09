@@ -147,17 +147,21 @@ Now edit the **addDay** function:
 
         // Update the Habit
         var habit = this.state.habits.pop();
-        habit.days.push(newDay);
+        if (habit) {
+          habit.days.push(newDay);
 
-        // Update this.state.habits with the new Habit.
-        var habits = this.state.habits;
-        habits.push(habit);
+          // Update this.state.habits with the new Habit.
+          var habits = this.state.habits;
+          habits.push(habit);
 
-        // Update state.
-        this.setState({habits: habits, habit: habit, checked: true});
+          // Update state.
+          this.setState({habits: habits, habit: habit, checked: true});
 
-        // Store the new habits.
-        store.save('habits', this.state.habits);
+          // Store the new habits.
+          store.save('habits', this.state.habits);
+        } else {
+          this.setState({editHabit: true});
+        }
       }
     } else {
       this.setState({editHabit: true});
