@@ -1,4 +1,10 @@
-# React Native Sharing Habits
+---
+title:  "React Native Sharing Habits"
+date:   2016-01-12 13:05:00
+categories: react-native learning
+layout: post
+image: rn_share.jpg
+---
 
 ## Go On and Tell The World Why Dontcha
 
@@ -8,7 +14,7 @@ The next feature that'd be nice to have is to be able to tell all our friends ab
 
 To that end we'll add a cool little share button at the bottom to pull up additional apps to create a post, tweet, email, etc and populate it with some text.
 
-<!—more—>
+<!--more-->
 
 ## React Native Sharing
 
@@ -47,7 +53,7 @@ include ':react-native-share', ':app'
 project(':react-native-share').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share/android')
 ```
 
-This threw me the first time because I simply appended the two lines, but as you can see the **include** statement for ':app' is still there and I guess you only need it in there once (or the 'react-native-share' include needs to come before… either way). 
+This threw me the first time because I simply appended the two lines, but as you can see the **include** statement for ':app' is still there and I guess you only need it in there once (or the 'react-native-share' include needs to come before… either way).
 
 Next, edit **android/app/build.gradle** (pay close attention to the **android/app** part there is also a **build.gradle** in the **android** folder, but editing that file won't work) and add the following to the **dependencies**:
 
