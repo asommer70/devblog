@@ -24,13 +24,11 @@ Once things are installed edit the **src/main.js** file and adjust the variables
 
 ```
 var today = moment();
-var dayKey = today.unix();
+var dayKey = today.format('MMDDYYYY');
 var day;
 ```
 
-This is very similar to what we had before, but instead of a string value representing the **dayKey** a Unix timestamp will be used.  Cause is it really that much better to be able to read an "id" for an entry?
-
-Also, setting **today** to a Moment object will allow us to do some manipulations down the line.
+Setting **today** to a Moment object will allow us to do some manipulations down the line.
 
 ## Adjust addDay
 
@@ -65,7 +63,7 @@ Now, update the **addDay** function:
               for (var i = diffOfDays - 1; i > 0; i--) {
                 var momentBetweenDay = today.subtract(i, 'days');
 
-                var betweenDay = {dayId: momentBetweenDay.unix(), created_at: momentBetweenDay.unix(), habit: this.state.habit.name, checked: false }
+                var betweenDay = {dayId: momentBetweenDay.format('MMDDYYY'), created_at: momentBetweenDay.unix(), habit: this.state.habit.name, checked: false }
                 habit.days.push(betweenDay);
               }
             }
@@ -142,11 +140,12 @@ Below the new Chains section add this code to determine the Link count statement
 ```
     var checkedDays;
     var checks;
-    if (this.state.habit.days.length > 0) {
+    if (habitDays.length >= 1) {
+
       // Need an array of checked days starting with today going back to the first unchecked day.
       checks = [];
-      for (var i = habitDays.length - 1; i > 0; i--) {
-        if (habitDays[i].checked) {
+      for (var i = habitDays.length; i > 0; i--) {
+        if (habitDays[i - 1].checked) {
           checks.push(habitDays[i]);
         } else {
           break;
@@ -154,7 +153,8 @@ Below the new Chains section add this code to determine the Link count statement
       }
       checkedDays = checks.length;
     } else {
-      checkdDays = '0';
+      console.log('balls...');
+      checkedDays = '0';
       checks = [];
     }
 ```
