@@ -1,12 +1,20 @@
-# React Native Habit Scopes
+---
+title:  "React Native Habit Scopes"
+date:   2016-01-14 13:05:00
+categories: react-native learning
+layout: post
+image: rn_scopes.jpg
+---
 
 ## More Than One Habit
 
-It'd be great to be able to store information about more than one habit at a time.  That won't work the way the app is currently storing the Habit as a straight up string and the days as an array.  It'd probably be better to have a Habits array that has a Habit object which includes a days array unique to that Habit.
+It'd be great to be able to store information about more than one [habit](https://github.com/asommer70/thehoick-habit-app) at a time.  That won't work the way the app is currently storing the Habit as a straight up string and the days as an array.  It'd probably be better to have a Habits array that has a Habit object which includes a days array unique to that Habit.
 
 I sort of had the thought when I created the day object with a habit attribute pointing to the habit that it is tied to, but I really didn't take it far enough.
 
 Anyway, time to update things…
+
+<!--more-->
 
 ## componentDidMount()
 
