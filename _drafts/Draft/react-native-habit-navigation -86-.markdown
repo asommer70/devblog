@@ -571,15 +571,16 @@ The **restartHabit** method is similar to the method of the same name on the For
 
 ```
   restartHabit: function(habitIdx) {
-    var habits = this.state.habits
+    var habits = this.state.habits;
     habits[habitIdx].days = [];
 
-    this.setState({habits: habits, dataSource: this.state.dataSource.cloneWithRows(habits)}, () => {
-      store.save('habits', this.state.habits);
+    this.setState({habits: habits, habit: habits[habits.length - 1], dataSource: this.state.dataSource.cloneWithRows(habits)}, () => {
       this.props.events.emit('got-habits', this.state.habits);
       this.props.events.emit('chain-restarted');
+      store.save('habits', this.state.habits);
     });
   },
+
 ```
 
 With this method we're resetting the **days** attribute to an empty array in place instead of pulling the Habit off changing it, then putting it back on the Habits array.  Much cleaner!
@@ -599,7 +600,7 @@ Things don't quite work because we need to apply some changes to the LinkCount c
 Now that we're using props to set the initial state also change the LinkCount in **src/main.js**:
 
 ```
-            <LinkCount days={this.state.habit.days} events={this.props.events}/>
+            <LinkCount days={this.state.habit ? this.state.habit.days : []} events={this.props.events}/>
 ```
 
 Back in **src/components/link-count.js** adjust the Text component to include style objects passed in via props:
@@ -615,6 +616,118 @@ Awesome, now our LinkCount in the Habits will look good and function correctly.
 ## Habit Button
 
 // Change the longPress on the Habit button to be able to select Habits from a list instead of open the form.
-// Also move the Restart Chain button to the longPress functionality.
+Since we've moved all the functionality of the Habit **longPress** on the Main scene we can adjust that for something else.  I think being able to choose a habit on the Main scene would be cool.  
+
+Change the **render** method in **src/components/habit.js** to:
+
+```
+render: function() {
+    var habits;
+    if (this.state.choosing) {
+      habits = <View style={styles.habitsContainer}>
+        <View style={styles.habitsHeader}>
+          <Text style={styles.habitsHeaderText}>Choose a Habit</Text>
+        </View>
+        <View style={styles.habitsWrapper}>
+          <ListView
+              dataSource={this.state.dataSource}
+              renderRow={(rowData, sectionId, rowId) =>
+                <TouchableHighlight onPress={() => this.habitSelected(rowId)}>
+
+                  <View style={styles.habits}>
+                    <Text style={styles.habitsText}>{rowData.name ? rowData.name : ''}</Text>
+                  </View>
+                </TouchableHighlight>
+              }
+              renderSeparator={(sectionId, rowId, adjacentRowHighlighted) =>
+                <View style={styles.separator} key={rowId} />
+              }
+            />
+        </View>
+      </View>
+    } else {
+      habits = <View/>
+    }
+
+    return (
+      <View>
+        <View style={styles.shadow}>
+          <TouchableWithoutFeedback onLongPress={this.chooseHabit} onPress={this.addDay}>
+            <View style={[styles.habit, this.state.checked && styles.checked]}>
+              <Text style={styles.habitText}>{this.state.habit && this.state.habit.name != '' ? this.state.habit.name : 'No habit configured...'}</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+        {habits}
+      </View>
+    )
+  }
+})
+```
+
+We've also setup a ListView of Habits similar to the Habits component in the Habits scene (hmm maybe a chance for some refactoring… someday).  This list view also has a **rendorSeparator** property which will be displayed between items.  It's hard to make this look good, so maybe I'll revisit when I learn more about React Native design.
+
+Next, add the **chooseHabit** method:
+
+```
+  chooseHabit: function() {
+    this.setState({choosing: true});
+  },
+```
+
+Like the **editHabit** method this sets the **this.state.choosing** which will display the Habits ListView.  Finally, we need to add the **habitSelected** method which is fired when a Habit is touched:
+
+```
+  habitSelected: function(habitIdx) {
+    var habits = this.state.habits;
+    var habit = habits.splice(habitIdx, 1);
+    habits.push(habit[0])
+    this.setState({habits: habits, habit: habits[habits.length -1], dataSource: this.state.dataSource.cloneWithRows(habits), choosing: false}, () => {
+      this.props.events.emit('new-habit', this.state.habits);
+      store.save('habits', this.state.habits);
+    })
+  },
+```
+
+## Form Cleanup
+
+After all this we can clean up the **src/components/form.js** file by removing the Restart button in the **render** method:
+
+```
+  render: function() {
+    var input, save;
+
+    if (this.state.editHabit !== true) {
+      label = <View></View>;
+      input = <View></View>;
+      save = <View></View>;
+      cancel = <View></View>;
+    } else {
+      label = <Text style={styles.label}>Enter Habit</Text>;
+      input = <TextInput style={styles.input} onChangeText={(text) => this.setState({text: text})} value={this.state.text} />;
+      save =  <Button text={'Save'} onPress={this.saveHabit} textType={styles.saveText} buttonType={styles.saveButton} />;
+      cancel =  <Button text={'Cancel'} onPress={this.cancelHabitEdit} />;
+    }
+
+    return (
+      <View style={styles.formElement}>
+        {label}
+        {input}
+        <View style={styles.editButtons}>
+          {save}
+          {cancel}
+        </View>
+      </View>
+    )
+  }
+```
+
+You can also remove the **restartHabit** method from that file as well.
 
 ## Conclusion
+
+Well this was a whole bunch of new code and functionality.  It all started with a Settings scene and ended up with a whole Habits CRUD feature.  
+
+It makes the app better though.  For the next post we'll probably definitely get into POSTing the Habits to a web server…
+
+Party On!
