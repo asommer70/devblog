@@ -67,16 +67,22 @@ module.exports = React.createClass({
       this.setState({habits: habits, habit: habit, checked: checked})
     });
 
-    this.addListenerOn(this.props.events, 'chain-restarted', () => {
-      this.setState({checked: false});
+    this.addListenerOn(this.props.events, 'chain-restarted', (data) => {
+      if (this.state.habit == data.habits[data.habitIdx]) {
+        this.setState({checked: false});
+      }
     });
   },
 
   getInitialState: function() {
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     return {
       checked: false,
+      choosing: false,
       habit: {name: '', days: []},
       habits: [],
+      dataSource: ds.cloneWithRows([]),
     }
   },
 
@@ -90,7 +96,7 @@ module.exports = React.createClass({
       checked = this.checked(habit);
 
       if (this.isMounted()) {
-        this.setState({habit: habit, habits: data, checked: checked}, function() {
+        this.setState({habit: habit, habits: data, checked: checked, dataSource: this.state.dataSource.cloneWithRows(data)}, function() {
           this.props.events.emit('got-habits', this.state.habits);
         });
       }

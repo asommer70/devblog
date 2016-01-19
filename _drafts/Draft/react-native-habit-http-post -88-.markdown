@@ -165,7 +165,6 @@ Get the Settings from storage in **componentDidMount** and set initial state in 
 ```
   componentDidMount: function() {
     store.get('settings').then((data) => {
-      console.log('data:', data);
       if (data === null) {
         data = {};
       }
@@ -305,7 +304,6 @@ Alright, the app is ready to send some HTTP POSTs.  First, we need to get the Se
 ```
   componentDidMount: function() {
     store.get('settings').then((data) => {
-      console.log('data:', data);
       if (data === null) {
         data = {};
       }
