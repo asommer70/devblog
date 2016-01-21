@@ -1,10 +1,18 @@
-# React Native Habit App Refactoring
+---
+title:  "React Native Habit App Refactoring"
+date:   2016-01-21 13:05:00
+categories: react-native learning
+layout: post
+image: rn_refactoring.jpg
+---
 
-## Intro
+## Making Things Better
 
 The **main.js** file for our humble [Habit](https://github.com/asommer70/thehoick-habit-app) app has gotten pretty crowded and unwieldy.  At least I'm starting to think so cause tracking down bugs is harder and harder and I think some of the cause is the amount paging I have to do through the file to find a chunk of code.
 
 Not to mention actually understanding how all the different code and functions interact with each other.  Time for some clean up… cause I might want to add some more features down the road.
+
+<!--more-->
 
 ## Events
 
