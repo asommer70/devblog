@@ -1,10 +1,18 @@
-# React Native Habit HTTP POST
+---
+title:  "React Native Habit HTTP POST"
+date:   2016-01-28 13:05:00
+categories: react-native learning javascript
+layout: post
+image: rn_post.jpg
+---
 
 ## Syncing Habits
 
 Totally ready to backup the data from the [Habit](https://github.com/asommer70/thehoick-habit-app) so we can maybe develop some cool dashboard app later on.  To do this we'll send the Habits array to a server via HTTP POST every time it's saved.
 
 It'd also be good to check the server for some Habits if there aren't any configured and there is a URL for a sync location setup.  Which means the Habits data will need to be scoped to a User object of some type before being sent to the server.
+
+<!--more-->
 
 ## Renaming Form Component
 
@@ -78,7 +86,7 @@ module.exports = React.createClass({
 })
 ```
 
-As you can see this component is very similar to our HabitForm component.  It's a little more generic in that the label Text component is set from **this.props.setting** (with a capitalized first letter), and the Input component's value is set from **this.props.val**. 
+As you can see this component is very similar to our HabitForm component.  It's a little more generic in that the label Text component is set from **this.props.setting** (with a capitalized first letter), and the Input component's value is set from **this.props.val**.
 
 When the Save button is pushed the **saveSetting** adds/replaces attributes to object passed to **this.props.settings** then emits a **new-settings** event passing the new settings.  The **cancelSetting** method emits a **cancel-$setting** event that is customized to the Setting for the form.  This means we'll have to listen for a particular string event, but it will enable the opening and closing of particular forms.
 
@@ -328,7 +336,7 @@ Edit the **componentWillMount** method:
 
 And create the **sendData** method which will use the [fetch](https://facebook.github.io/react-native/docs/network.html) API to perform the POST:
 
-``` 
+```
 sendData: function() {
     if (this.state.settings.url !== undefined &&
         this.state.settings.url != '' &&
