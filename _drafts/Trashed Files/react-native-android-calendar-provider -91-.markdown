@@ -10,6 +10,7 @@ Unfortunately while developing The Hoick Habit App no such module existed.  Sinc
 
 Thus I started developing the [React Native Android Calendar Provider](https://github.com/asommer70/react-native-android-calendar-provider) module.
 
+
 ## Finding a Mentor
 
 There is great [documentation](https://facebook.github.io/react-native/docs/native-modules-android.html#content) on developing your own React Native Modules, but the docs don't cover the basic step one stuff of creating needed files and directories.  I guess they assume that anyone whacky enough to develop new React Native modules already knows how to develop straight up Android apps.  While I have done a couple of Android Java apps, I am far from good/professional at it.
@@ -49,4 +50,3 @@ Also, inside the **main/java** directory is the **AndroidManifest.xml** file.  T
 And that pretty much brings us to the Java class files and the guts of the project.
 
 ## AndroidCalendarProviderModule.java
-
