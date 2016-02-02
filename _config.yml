@@ -10,7 +10,7 @@ github_username:  asommer70
 
 # Build settings
 markdown: kramdown
-highlighter: pygments
+highlighter: rouge
 paginate: 5
 
 kramdown:
