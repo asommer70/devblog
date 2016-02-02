@@ -1,4 +1,10 @@
-# React Native Habit Notifications iOS
+---
+title:  "React Native Habit Notifications iOS"
+date:   2016-02-02 13:05:00
+categories: react-native learning javascript
+layout: post
+image: rn_notify.jpg
+---
 
 ## Remind Me Now…
 
@@ -9,6 +15,8 @@ It'd be even more awesome to only get the reminder if the Habit hasn't been chec
 Instead I think we can add reminders to the built in Calendar/Reminder system for iOS and Android.  We'll have to do some code "branching" for this feature to use different components based on the device.  
 
 Should be fun…
+
+<!--more-->
 
 ## Date Picker iOS
 
@@ -314,6 +322,7 @@ On to removing a Reminder. At the end of the **removeReminder** method add:
     });
   },
 ```
+
 ## Conclusion
 
 So the Recurrence part of this feature was a little more work than I'd originally thought.  Before the [React-Native-CalendarReminders](https://github.com/wmcmahan/React-Native-CalendarReminders) module didn't support recurrence.  After a quick search on Google the **EKReminder** class does support recurrence via the **recurrenceRules** attribute.  The functionality wasn't implemented probably because the recurrence rules can be more complicated.  
@@ -325,4 +334,3 @@ I have done some Swift iOS work, but never completed the app, and really wish th
 Who knows maybe I'll do some more developing in Objective-C…
 
 Party On!
-
