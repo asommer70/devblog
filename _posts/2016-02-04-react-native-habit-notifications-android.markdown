@@ -1,10 +1,18 @@
-# React Native Habit Notifications Android
+---
+title:  "React Native Habit Notifications Android"
+date:   2016-02-04 13:05:00
+categories: react-native learning javascript
+layout: post
+image: rn_notify2.jpg
+---
 
 ## Reminders on Android
 
 Getting reminder notifications on iOS for the [Habit](https://github.com/asommer70/thehoick-habit-app) app was more complicated than I thought, but learning some Objective-C and contributing to another Open Source project was fun.  Always fun to learn new things.
 
 Now it's time to create another platform specific component for Android reminders.
+
+<!--more-->
 
 ## Upgrading React Native
 
