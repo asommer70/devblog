@@ -1,10 +1,18 @@
-# React Native Habit Popups
+---
+title:  "React Native Habit Popups"
+date:   2016-02-09 13:05:00
+categories: react-native learning javascript
+layout: post
+image: rn_popups.jpg
+---
 
 ## Are You Sure?
 
 The main features of the [Habit](https://github.com/asommer70/thehoick-habit-app) app are all in place.  There are a couple of things that aren't sitting well with me though.  
 
 One deleting a habit, reminder, etc happens instantly with no way to back out.  Not so good if you accidentally touch your phone in the wrong place with the app open.  To fix this we'll set things up to use a confirmation popup before destroying any user data.
+
+<!--more-->
 
 ## React Native Popup
 
