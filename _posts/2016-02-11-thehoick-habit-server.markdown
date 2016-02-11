@@ -1,4 +1,10 @@
-# The Hoick Habit Server
+---
+title:  "The Hoick Habit Server"
+date:   2016-02-11 13:05:00
+categories: react-native learning javascript
+layout: post
+image: rn_server.jpg
+---
 
 ## Serving Up Some Habits
 
@@ -9,6 +15,8 @@ Since I've been learning a lot about [Node.js](https://nodejs.org/en/) and React
 I started a new [server](https://github.com/asommer70/thehoick-habit-server) to accept HTTP POST, GET, and DELETE methods.  The server will save Habit data into a [PouchDB](http://pouchdb.com) database.  
 
 Using PouchDB might give additional functionality down the road, and it's very simple to use with JavaScript.
+
+<!--more-->
 
 ## Setting up the Project
 
