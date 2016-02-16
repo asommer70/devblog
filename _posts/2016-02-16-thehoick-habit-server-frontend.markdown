@@ -1,4 +1,10 @@
-# The Hoick Habit Server Frontend
+---
+title:  "The Hoick Habit Server Frontend"
+date:   2016-02-11 13:05:00
+categories: react-native learning javascript
+layout: post
+image: rn_frontend.jpg
+---
 
 ## Data Manipulation
 
@@ -7,6 +13,8 @@ It didn't take long before the need to adjust the data on the [server](https://g
 For whatever reason, ok there's a good reason and it's because I wasn't careful in sending data to the server, the habit data on the server I was working with was overwritten.  The feature I'm working on is to populate the Habits if the Settings for URL and Username are set and there aren't any configured.  We'll get to that in a minute though.
 
 In the meantime whipping up some Node + Express + Jade templates was surprisingly very fun…
+
+<!--more-->
 
 ## Express Frontend
 
@@ -109,7 +117,7 @@ doctype html
 html(lang="en")
   head
     title The Hoick Habit Server | #{title}
-    
+
     link(href="/assets/css/main.css", rel="stylesheet", type='text/css')
     link(href='https://fonts.googleapis.com/css?family=Carter+One|Noto+Serif|Dekko', rel='stylesheet', type='text/css')
   body
@@ -123,7 +131,7 @@ html(lang="en")
               a(href='/habits') API
         hr.nav
         br
-        
+
         block content
 ```
 
@@ -159,7 +167,7 @@ block content
   hr
 
   h3 Habits
-  
+
   if user.habits && user.habits.length > 0
     ul
       each habit in user.habits
@@ -173,15 +181,15 @@ block content
                 | #[strong created_at:] #{day.created_at}
                 br
                 | #[strong checked:] #{day.checked}
-                
+
           h4 Reminder: #{habit.reminder}
-            
+
   else
     p No habits at this time...
 
   hr
   br
-  
+
   h3 Current Revision
   p= user._rev
   a(href='/users/rollback/#{user.username}?rev=#{user._rev}') Use This Revision?
@@ -190,7 +198,7 @@ block content
   br
   hr
   br
-  
+
   h3 Revisions
   ul(class='revisions')
     each rev, idx in user._revisions.ids.reverse()
@@ -209,15 +217,15 @@ extends ./layout.jade
 
 block content
   h1 Houston You Have a Problem
-  
+
   h3 A #{error.status} error has occurred.
-  
-  p 
+
+  p
     strong Error Details:
     br
-    em name: #{error.name} 
+    em name: #{error.name}
     br
-    em message: #{error.message} 
+    em message: #{error.message}
     br
     em reason: #{error.reason}
 ```
