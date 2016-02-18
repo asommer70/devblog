@@ -1,10 +1,18 @@
-# React Native Habit HTTP GET Habits
+---
+title:  "React Native Habit HTTP GET Habits"
+date:   2016-02-18 13:05:00
+categories: react-native learning javascript
+layout: post
+image: rn_get.jpg
+---
 
-## Brining Down the Habits
+## Bringing Down the Habits
 
 Since we now have a [server](https://github.com/asommer70/thehoick-habit-server) for our [Habit](https://github.com/asommer70/thehoick-habit-app) app it makes sense, at least in my mind balls, to be able to populate the Habits from the server as well.
 
 Probably won't need to pull Habits every time, cause you might want to have certain habits only on certain devices.  That can always change, but it makes things simpler starting out.
+
+<!--more-->
 
 ## HTTP GET
 
