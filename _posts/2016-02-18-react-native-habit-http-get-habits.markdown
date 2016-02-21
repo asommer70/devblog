@@ -64,7 +64,7 @@ The **Habit** component defined in **src/components/habit.js** need to be modifi
 
 Also, extract the inner code from the **store.get('habits').then()** method inside the **componentDidMount** method and create a new **setHabits** method:
 
-```
+```javascript
   setHabits: function(habits) {
     var habit = habits[habits.length - 1];
     var checked = this.checked(habit);
@@ -76,7 +76,7 @@ Also, extract the inner code from the **store.get('habits').then()** method insi
 
 This bit of refactoring can replace the code from the **componentDidMount** and **new-habit** callback code with a call to **setHabits**:
 
-```
+```javascript
       this.setHabits(habits);
 ```
 

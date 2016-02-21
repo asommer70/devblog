@@ -1,6 +1,6 @@
 ---
 title:  "The Hoick Habit Server Frontend"
-date:   2016-02-11 13:05:00
+date:   2016-02-16 13:05:00
 categories: react-native learning javascript
 layout: post
 image: rn_frontend.jpg
