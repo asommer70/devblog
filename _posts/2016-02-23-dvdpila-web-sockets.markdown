@@ -1,4 +1,10 @@
-# DVD Pila! Web Sockets
+---
+title:  "DVD Pila! Web Sockets"
+date:   2016-02-23 13:05:00
+categories: rails dvdpila
+layout: post
+image: rails_sockets.jpg
+---
 
 ## Useful Software
 
@@ -11,6 +17,8 @@ To that end I whipped out the [DVD Pila!](https://github.com/asommer70/dvdpila) 
 My first experience with web sockets was building a realtime [Note](https://github.com/asommer70/thehoick-notes-server) taking app for a local hackathon.  It was very cool using [Socket.io](http://socket.io/) to update a note using a web interface, Android app, and an iOS app at the same time.
 
 My thought is to build a DVD Pila! Remote app at some point, but the first step is to integrate a web socket server into the existing Rails app.
+
+<!--more-->
 
 ## web-socket Rails
 
