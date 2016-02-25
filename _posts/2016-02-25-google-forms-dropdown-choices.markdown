@@ -1,4 +1,10 @@
-# Google Form Dropdown Choices
+---
+title:  "Google Form Dropdown Choices"
+date:   2016-02-25 13:05:00
+categories: google javascript
+layout: post
+image: google_sheets.jpg
+---
 
 ## Forms Forms Forms
 
@@ -9,6 +15,8 @@ I guess that's what comes from the need to collect data.  And the whole Internet
 I recently brought on a new client that needs help with scheduling a series of appointments and adding them to a calendar.  Since they use Google Calendar, Gmail, etc I thought it'd be pretty easy to setup a simple [Google Form](https://www.google.com/forms/about/) backed by a [Google Sheet](https://www.google.com/sheets/about/) to collect data.
 
 It was pretty simple once I dove in…
+
+<!--more-->
 
 ## Setting Up the Form
 
@@ -58,7 +66,7 @@ Next, get the Form object via it's ID (the last part of the Form URL you see in 
 function getDates() {
   // Get the Form.
   var form = FormApp.openById('YOUR_FORM_ID');
-  
+
   // Get the Date Time Item if it's there.
   var items = form.getItems();
   var datetimeItem;
@@ -94,7 +102,7 @@ With the **takenDates** array setup get the values from the **Available Dates** 
 
 // Create an array of dates from column A date time values.
   var dates = values.map(function(value, index) {
-    
+
     // If the value hasn't been taken return it.
     var d = takenDates.checkDate(value[0]);
     if (d === false) {
@@ -113,9 +121,9 @@ Notice the **takenDates.checkDate** method.  We'll add that below, but first add
     datetimeItem = form.addListItem();
     datetimeItem.setTitle('Date Time')
   }
-  
+
   dates.shift('Balls...');
-  
+
   Logger.log(datetimeItem);
   datetimeItem.asListItem().setChoiceValues(dates);
 ```
