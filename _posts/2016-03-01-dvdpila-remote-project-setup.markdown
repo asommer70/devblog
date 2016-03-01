@@ -1,7 +1,7 @@
 ---
 title:  "DVD Pila! Remote Project Setup"
 date:   2016-03-01 13:05:00
-categories: react-native javascript
+categories: reactnative javascript
 layout: post
 image: rn_remote.jpg
 ---
