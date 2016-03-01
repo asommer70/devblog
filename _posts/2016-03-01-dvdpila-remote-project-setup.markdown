@@ -1,4 +1,10 @@
-# DVD Pila! Remote Project Setup
+---
+title:  "DVD Pila! Remote Project Setup"
+date:   2016-03-01 13:05:00
+categories: react-native javascript
+layout: post
+image: rn_remote.jpg
+---
 
 ## Remote Control with Web Sockets
 
@@ -7,6 +13,8 @@ After learning a little bit of [Socket.io](http://socket.io) and adding [web soc
 The thought being that the remote app will connect to the server's web socket and send messages for controlling the playback of videos.
 
 Seems like a good theory…
+
+<!--more-->
 
 ## Setting Things Up
 
@@ -103,7 +111,7 @@ class Controls extends Component {
       if (data === null) {
         data = {};
       } else {
-        
+
         this.setState({settings: data});
       }
     });
@@ -114,7 +122,7 @@ class Controls extends Component {
   }
 
   render() {
- 
+
     if (this.state.status == 'stop' || this.state.status == 'pause') {
       playControl = <ControlButton src={require('./img/play-white-icon.png')} onPress={this.changePlay.bind(this)} />;
     } else {
@@ -124,7 +132,7 @@ class Controls extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>DVD Pila! Remote</Text>
-       
+
         <View style={styles.buttons}>
           <ControlButton src={require('./img/previous-white-icon.png')} />
 
