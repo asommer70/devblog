@@ -3,7 +3,7 @@ title:  "Moving The Hero"
 date:   2016-07-21 13:05:00
 categories: pico-8 games rumpusblaster
 layout: post
-image: me_pico-8.png
+image: hero_ship.png
 ---
 
 ## Movement
@@ -45,6 +45,8 @@ function move_hero()
   end
 end
 ```
+
+Notice that moving along the **x** axis is incremented/decremented by **1** instead of **2** along the **y** axis.  I thought it'd be interesting if the hero had main engines and smaller maneuvering thrusters for side to side movement.
 
 ## Exhaust
 
@@ -89,6 +91,8 @@ end
 ```
 
 As you can see I also added a **text** "element" that will change depending on which button is pushed.  This seemed like a nice debugging technique to make things clear while in the game.
+
+![](img/hero_ship_sprites.png)
 
 ## _update and _draw
 
