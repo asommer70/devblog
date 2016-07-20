@@ -4,6 +4,7 @@ date:   2016-07-21 13:05:00
 categories: pico-8 games rumpusblaster
 layout: post
 image: hero_ship.png
+bbcode: true
 ---
 
 ## Movement
@@ -13,6 +14,8 @@ I learned how to move an "object"/"pixels" around the screen while working throu
 While looking at the source of other games I noticed they used a pretty similar approach.  One thing they did use that seems more segmented is to use **Tables** to create key/value pairs for attributes of an object.  
 
 Coming from web development this looks suspiciously like an object...
+
+<!--more-->
 
 ## The Hero
 
@@ -92,7 +95,7 @@ end
 
 As you can see I also added a **text** "element" that will change depending on which button is pushed.  This seemed like a nice debugging technique to make things clear while in the game.
 
-![](img/hero_ship_sprites.png)
+![](/img/hero_ship_sprites.png)
 
 ## _update and _draw
 
