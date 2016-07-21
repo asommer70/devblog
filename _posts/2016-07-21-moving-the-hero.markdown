@@ -4,7 +4,6 @@ date:   2016-07-21 13:05:00
 categories: pico-8 games rumpusblaster
 layout: post
 image: hero_ship.png
-bbcode: true
 ---
 
 ## Movement
