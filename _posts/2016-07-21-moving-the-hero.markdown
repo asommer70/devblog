@@ -97,7 +97,7 @@ As you can see I also added a **text** "element" that will change depending on w
 
 ![](/img/hero_ship_sprites.png)
 
-## _update and _draw
+## update and draw
 
 The **_update** and **_draw** functions are pretty simple:
 
