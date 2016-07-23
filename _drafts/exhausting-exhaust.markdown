@@ -13,6 +13,20 @@ Using a straight up sprite for an exhaust trail didn't look that cool to me.  Si
 
 Brief flashes of bright pixels are surprisingly satisfying...
 
+## Sidebar... a little Refactoring
+
+Before we jump into exhaust awesomeness I want to send a big thanks to [@morningtoast](http://www.lexaloffle.com/bbs/?uid=12806) and [@Connorses](http://www.lexaloffle.com/bbs/?uid=9392) for some great feedback on my last post.  morningtoast suggested to assign "attributes" to a Lua Table when it's declared very similar to JavaScript, Ruby, etc.  So the **hero** statement becomes:
+
+```
+hero = {
+  x = 58,
+  y = 100,
+  sprite = 0,
+}
+```
+
+Which is cleaner and less lines of code.  @Connorses offered a great suggestion for created a slew of "actors" at one time with a function.  Totally will look into that deeper in a future post.
+
 ## Using pset in exhaust()
 
 The built in **pset** function is quite handy it allows you to set the color of any pixel identified by x, y coordinates.  Wonder if you could build an entire game with only using loops, ifs, and pset...
