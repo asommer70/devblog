@@ -1,5 +1,5 @@
 ---
-title:  "Exhausting Exhaust"
+title:  "Firing Freakin Lasers"
 date:   2016-07-28 13:05:00
 categories: pico-8 games rumpusblaster
 layout: post
@@ -16,6 +16,8 @@ When I hear the word FIRE (all caps necessary) I always think of Captain Kirk at
 And it's now time to make our hero ship fire it's own weapons.  In this case we'll start with lasers and go from there.  Thinking to have some type of bomb/missile to add a little extra kick to our plucky hero.
 
 Plucky, ya definitely plucky!
+
+<!--more-->
 
 ## Adding the Sprite
 
