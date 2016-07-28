@@ -4,6 +4,7 @@ date:   2016-08-02 13:05:00
 categories: pico-8 games rumpusblaster
 layout: post
 image: asteroids.png
+bbcode: true
 ---
 
 ## Space Rocks
