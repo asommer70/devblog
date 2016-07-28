@@ -4,7 +4,6 @@ date:   2016-07-28 13:05:00
 categories: pico-8 games rumpusblaster
 layout: post
 image: hero_lasers.png
-bbcode: true
 ---
 
 ## FIRE!!!
