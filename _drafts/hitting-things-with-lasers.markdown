@@ -1,6 +1,6 @@
 ---
 title: "Hitting Things With Lasers"
-date:   2016-08-02 13:05:00
+date:   2016-08-09 13:05:00
 categories: pico-8 games rumpusblaster
 layout: post
 image: asteroids.png
@@ -12,6 +12,8 @@ bbcode: true
 We've got lasers firing and astroids asteroiding, or whatever it is they do, so now we need to be able to actually hit objects with our lasers.  And the reverse, to know when an object has been hit by a laser, or another object for that matter.
 
 Since starting this foray into game development I've continually been impressed about how supportive and helpful the Pico-8 community is.  The forums have loads of great posts with comments that are usually helpful and questions ask to help someones understanding.  Very fun to be a part of it in whatever small way I can.
+
+<!--more-->
 
 ## Updating bullets
 

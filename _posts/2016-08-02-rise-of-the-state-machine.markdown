@@ -4,7 +4,6 @@ date:   2016-08-02 13:05:00
 categories: pico-8 games rumpusblaster
 layout: post
 image: update_function.png
-bbcode: true
 ---
 
 ## Refactor Fun

@@ -1,5 +1,9 @@
 ---
 title: "Enemy Mine"
+date:   2016-08-11 13:05:00
+categories: pico-8 games rumpusblaster
+layout: post
+image: asteroids.png
 ---
 
 ## Remember That Movie From The 80s
@@ -7,6 +11,8 @@ title: "Enemy Mine"
 Coming up with the title or this post made me remember that movie [Enemy, Mine](https://en.wikipedia.org/wiki/Enemy_Mine_(film)) from the 80s.  I think it was starring Dennis Quaid and Lewis Gossit Jr.  They were enemies crash landed on a hostile deserted world and had to work together to survive. Then of course they become friends and have a bunch of adventures.
 
 Interesting that they were both starship pilots and I'm working on a space shooter game... cause you know I liked them when I was a kid... in the 80s...
+
+<!--more-->
 
 ## Making Sparks
 
