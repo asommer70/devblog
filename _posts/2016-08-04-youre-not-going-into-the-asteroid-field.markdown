@@ -1,10 +1,9 @@
 ---
 title: "You're Not Going Into The Asteroid Field?"
-date:   2016-08-05 13:05:00
+date:   2016-08-04 13:05:00
 categories: pico-8 games rumpusblaster
 layout: post
 image: asteroids.png
-bbcode: true
 ---
 
 ## Space Rocks
