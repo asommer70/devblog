@@ -3,8 +3,7 @@ title: "Hitting Things With Lasers"
 date:   2016-08-09 13:05:00
 categories: pico-8 games rumpusblaster
 layout: post
-image: asteroids.png
-bbcode: true
+image: asteroid_destroy.png
 ---
 
 ## A Hit, A Hit, A Very Palpable Hit
